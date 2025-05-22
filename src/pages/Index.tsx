@@ -7,9 +7,13 @@ import { Calendar, Users, Brain, Phone, MessageSquare, Award, Shield, Globe, Wif
 import DoctorDashboard from '@/components/DoctorDashboard';
 import PatientPortal from '@/components/PatientPortal';
 import AdminPanel from '@/components/AdminPanel';
+import { useNavigate } from 'react-router-dom';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Index = () => {
   const [activeView, setActiveView] = useState<'overview' | 'doctor' | 'patient' | 'admin'>('overview');
+  const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const features = [
     {
@@ -90,54 +94,60 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
                 <Heart className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">CareAI Follow-Up</h1>
-                <p className="text-sm text-gray-600">Intelligent Healthcare Reminder System</p>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">CareAI Follow-Up</h1>
+                <p className="text-xs sm:text-sm text-gray-600">Intelligent Healthcare Reminder System</p>
               </div>
             </div>
-            <div className="flex space-x-3">
+            <div className="flex flex-wrap gap-2">
               <Button 
                 onClick={() => setActiveView('doctor')}
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-blue-600 hover:bg-blue-700 text-sm whitespace-nowrap"
+                size={isMobile ? "sm" : "default"}
               >
-                Doctor Dashboard
+                <span className={isMobile ? "hidden" : "mr-2"}>Doctor</span>
+                Dashboard
               </Button>
               <Button 
                 onClick={() => setActiveView('patient')}
                 variant="outline"
-                className="border-green-600 text-green-600 hover:bg-green-50"
+                className="border-green-600 text-green-600 hover:bg-green-50 text-sm"
+                size={isMobile ? "sm" : "default"}
               >
-                Patient Portal
+                <span className={isMobile ? "hidden" : "mr-2"}>Patient</span>
+                Portal
               </Button>
               <Button 
-                onClick={() => setActiveView('admin')}
+                onClick={() => navigate('/admin-login')}
                 variant="outline"
-                className="border-purple-600 text-purple-600 hover:bg-purple-50"
+                className="border-purple-600 text-purple-600 hover:bg-purple-50 text-sm whitespace-nowrap"
+                size={isMobile ? "sm" : "default"}
               >
-                Admin Panel
+                <span className={isMobile ? "hidden" : "mr-2"}>Admin</span>
+                Panel
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Revolutionizing Healthcare Follow-Up Care
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
             AI-powered system that automatically reminds both doctors and patients of appointments, 
             reduces no-shows, and improves patient outcomes through intelligent scheduling and prediction.
           </p>
-          <div className="flex justify-center space-x-4">
+          <div className="flex flex-wrap justify-center gap-2">
             <Badge variant="secondary" className="px-4 py-2 text-sm">
               HIPAA Compliant
             </Badge>
@@ -154,51 +164,51 @@ const Index = () => {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-12">
           <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
-            <CardContent className="p-6">
+            <CardContent className="p-3 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-blue-100">Patients Managed</p>
-                  <p className="text-3xl font-bold">12,847</p>
+                  <p className="text-blue-100 text-xs sm:text-sm">Patients Managed</p>
+                  <p className="text-lg sm:text-3xl font-bold">12,847</p>
                 </div>
-                <Users className="w-8 h-8 text-blue-200" />
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-blue-200" />
               </div>
             </CardContent>
           </Card>
           
           <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white">
-            <CardContent className="p-6">
+            <CardContent className="p-3 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-green-100">Appointments Scheduled</p>
-                  <p className="text-3xl font-bold">8,234</p>
+                  <p className="text-green-100 text-xs sm:text-sm">Appointments</p>
+                  <p className="text-lg sm:text-3xl font-bold">8,234</p>
                 </div>
-                <Calendar className="w-8 h-8 text-green-200" />
+                <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-green-200" />
               </div>
             </CardContent>
           </Card>
           
           <Card className="bg-gradient-to-r from-purple-500 to-purple-600 text-white">
-            <CardContent className="p-6">
+            <CardContent className="p-3 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-purple-100">No-Show Reduction</p>
-                  <p className="text-3xl font-bold">67%</p>
+                  <p className="text-purple-100 text-xs sm:text-sm">No-Show Reduction</p>
+                  <p className="text-lg sm:text-3xl font-bold">67%</p>
                 </div>
-                <Brain className="w-8 h-8 text-purple-200" />
+                <Brain className="w-6 h-6 sm:w-8 sm:h-8 text-purple-200" />
               </div>
             </CardContent>
           </Card>
           
           <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-            <CardContent className="p-6">
+            <CardContent className="p-3 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-orange-100">Messages Sent</p>
-                  <p className="text-3xl font-bold">45,621</p>
+                  <p className="text-orange-100 text-xs sm:text-sm">Messages Sent</p>
+                  <p className="text-lg sm:text-3xl font-bold">45,621</p>
                 </div>
-                <MessageSquare className="w-8 h-8 text-orange-200" />
+                <MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-orange-200" />
               </div>
             </CardContent>
           </Card>
@@ -206,7 +216,7 @@ const Index = () => {
 
         {/* Features Grid */}
         <div className="mb-12">
-          <h3 className="text-3xl font-bold text-center text-gray-900 mb-8">
+          <h3 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8">
             Comprehensive Healthcare Solutions
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -231,12 +241,12 @@ const Index = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-8 text-white">
-          <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Healthcare Practice?</h3>
-          <p className="text-lg mb-6 text-blue-100">
+        <div className="text-center bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-6 sm:p-8 text-white">
+          <h3 className="text-xl sm:text-2xl font-bold mb-4">Ready to Transform Your Healthcare Practice?</h3>
+          <p className="text-base sm:text-lg mb-6 text-blue-100">
             Join thousands of healthcare providers who have reduced no-shows and improved patient outcomes.
           </p>
-          <div className="flex justify-center space-x-4">
+          <div className="flex flex-wrap justify-center gap-3">
             <Button 
               size="lg" 
               className="bg-white text-blue-600 hover:bg-gray-100"
@@ -251,6 +261,14 @@ const Index = () => {
               onClick={() => setActiveView('patient')}
             >
               Patient Demo
+            </Button>
+            <Button
+              size="lg"
+              variant="secondary"
+              className="bg-purple-500 text-white hover:bg-purple-600"
+              onClick={() => navigate('/admin-login')}
+            >
+              Admin Login
             </Button>
           </div>
         </div>
