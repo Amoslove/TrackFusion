@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,7 +9,7 @@ import RewardManagement from '@/components/RewardManagement';
 import SettingsPanel from '@/components/SettingsPanel';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, LogOut, Calendar, Users, Award, MessageCircle, Settings, AlertCircle, Health } from 'lucide-react';
+import { ArrowLeft, LogOut, Calendar, Users, Award, MessageCircle, Settings, AlertCircle, ActivitySquare } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 
 const Admin = () => {
@@ -124,7 +125,7 @@ const Admin = () => {
           <div className="overflow-x-auto">
             <TabsList className={`${isMobile ? 'w-[500px] min-w-full' : 'grid w-full grid-cols-5'}`}>
               <TabsTrigger value="dashboard" className="flex items-center space-x-2">
-                <Health className={`h-4 w-4 ${activeTab === 'dashboard' ? 'text-blue-600' : 'text-gray-500'}`} />
+                <ActivitySquare className={`h-4 w-4 ${activeTab === 'dashboard' ? 'text-blue-600' : 'text-gray-500'}`} />
                 <span>Dashboard</span>
               </TabsTrigger>
               <TabsTrigger value="patients" className="flex items-center space-x-2">
