@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -121,7 +120,7 @@ const PatientManagement = () => {
   // Add patient mutation
   const addPatientMutation = useMutation({
     mutationFn: async (newPatient: PatientFormData) => {
-      const { data, error } = await supabase.from('patients').insert([newPatient]).select();
+      const { data, error } = await supabase.from('patients').insert(newPatient).select();
       if (error) throw error;
       return data;
     },

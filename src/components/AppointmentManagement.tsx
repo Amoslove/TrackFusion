@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -13,7 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { format, parse } from 'date-fns';
-import { Calendar as CalendarIcon, CheckCircle, Clock, Search, X, Calendar, Edit, Trash2, MessageCircle, Phone, Send } from 'lucide-react';
+import { Calendar as CalendarIcon, CheckCircle, Clock, Search, X, Calendar, Edit, Trash2, MessageCircle, Phone, Mail as MailIcon, Send } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -1084,7 +1083,7 @@ const AppointmentManagement = () => {
                                   className="h-8 px-2"
                                   onClick={() => handleEmail(patient.email)}
                                 >
-                                  <Mail className="h-4 w-4 text-purple-600" />
+                                  <MailIcon className="h-4 w-4 text-purple-600" />
                                 </Button>
                               )}
                             </div>

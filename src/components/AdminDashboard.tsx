@@ -8,7 +8,12 @@ import { Users, Calendar, Brain, Phone, MessageSquare, Activity } from 'lucide-r
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useNavigate } from "react-router-dom";
 
-const AdminDashboard = () => {
+interface AdminDashboardProps {
+  doctorName?: string;
+  updateDoctorName?: (name: string) => void;
+}
+
+const AdminDashboard = ({ doctorName, updateDoctorName }: AdminDashboardProps) => {
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
