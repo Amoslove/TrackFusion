@@ -42,12 +42,16 @@ const AdminDashboard = ({ doctorName, updateDoctorName }: AdminDashboardProps) =
     }
   });
 
-  // Calculate stats
-  const patientCount = patients?.length || 0;
-  const appointmentCount = appointments?.length || 0;
-  const pendingAppointments = appointments?.filter(app => app.status === 'pending').length || 0;
-  const completedAppointments = appointments?.filter(app => app.status === 'completed').length || 0;
-  const highRiskPatients = patients?.filter(p => p.risk_level === 'high').length || 0;
+  // Ensure appointments is always an array before using filter
+  const appointmentsArray = Array.isArray(appointments) ? appointments : [];
+  const patientsArray = Array.isArray(patients) ? patients : [];
+
+  // Calculate stats with safe array operations
+  const patientCount = patientsArray.length;
+  const appointmentCount = appointmentsArray.length;
+  const pendingAppointments = appointmentsArray.filter(app => app.status === 'pending').length;
+  const completedAppointments = appointmentsArray.filter(app => app.status === 'completed').length;
+  const highRiskPatients = patientsArray.filter(p => p.risk_level === 'high').length;
 
   const handleQuickSchedule = () => {
     toast({ 
