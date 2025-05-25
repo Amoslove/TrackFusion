@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Phone, Mail, MessageCircle, Edit, Trash2 } from 'lucide-react';
@@ -41,6 +42,7 @@ export const PatientCard = ({
   onEmail
 }: PatientCardProps) => {
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   const getRiskLevelColor = (level: string | null) => {
     switch (level) {
@@ -48,6 +50,16 @@ export const PatientCard = ({
       case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       default: return 'bg-green-100 text-green-800 border-green-200';
     }
+  };
+
+  const handleOpenMessaging = () => {
+    navigate('/messaging', { 
+      state: { 
+        patient: patient,
+        prefilledRecipient: patient.phone || patient.email || '',
+        preferredChannel: patient.phone ? 'whatsapp' : 'email'
+      } 
+    });
   };
 
   return (
@@ -135,10 +147,10 @@ export const PatientCard = ({
             size="sm"
             variant="ghost"
             className="h-8 px-2 ml-auto"
-            onClick={() => onSendMessage(patient)}
+            onClick={handleOpenMessaging}
           >
             <MessageCircle className="h-4 w-4" />
-            <span className={isMobile ? "hidden" : "ml-1"}>Message</span>
+            <span className={isMobile ? "hidden" : "ml-1"}>Message Center</span>
           </Button>
         </div>
         
