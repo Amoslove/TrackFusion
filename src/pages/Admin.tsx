@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,7 +8,7 @@ import RewardManagement from '@/components/RewardManagement';
 import SettingsPanel from '@/components/SettingsPanel';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, LogOut, Calendar, Users, Award, MessageCircle, Settings, AlertCircle, ActivitySquare } from 'lucide-react';
+import { ArrowLeft, LogOut, Calendar, Users, Award, Settings, AlertCircle, ActivitySquare } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 import { PatientManagementMain } from '@/components/patients/PatientManagementMain';
 
@@ -66,10 +67,13 @@ const Admin = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-green-100 overflow-hidden relative">
         {/* Shooting arrow animation */}
         <div className="absolute top-1/4 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-pulse opacity-70"></div>
-        <div className="absolute top-1/4 left-0 w-8 h-8 transform rotate-45 bg-blue-500 animate-bounce" style={{
-          animation: 'shootArrow 2s ease-out forwards',
-          clipPath: 'polygon(0% 50%, 40% 0%, 40% 30%, 100% 30%, 100% 70%, 40% 70%, 40% 100%)'
-        }}></div>
+        <div 
+          className="absolute top-1/4 left-0 w-8 h-8 transform rotate-45 bg-blue-500 animate-bounce" 
+          style={{
+            animation: 'shootArrow 2s ease-out forwards',
+            clipPath: 'polygon(0% 50%, 40% 0%, 40% 30%, 100% 30%, 100% 70%, 40% 70%, 40% 100%)'
+          }}
+        ></div>
         
         <div className="animate-fade-in animate-scale-in text-center max-w-4xl px-4 z-10">
           <div className="relative mb-8">
@@ -97,7 +101,7 @@ const Admin = () => {
           </div>
         </div>
 
-        <style jsx>{`
+        <style>{`
           @keyframes shootArrow {
             0% {
               left: -50px;
@@ -187,7 +191,7 @@ const Admin = () => {
           </div>
 
           <TabsContent value="dashboard">
-            <AdminDashboard doctorName={doctorName} updateDoctorName={updateDoctorName} />
+            <AdminDashboard />
           </TabsContent>
 
           <TabsContent value="patients">
