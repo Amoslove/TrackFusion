@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -23,7 +22,16 @@ const adminPasswordSchema = z.object({
   path: ['confirmPassword'],
 });
 
-const SettingsPanel = () => {
+const doctorNameSchema = z.object({
+  doctorName: z.string().min(1, { message: 'Doctor name is required' }),
+});
+
+interface SettingsPanelProps {
+  doctorName: string;
+  updateDoctorName: (name: string) => void;
+}
+
+const SettingsPanel = ({ doctorName, updateDoctorName }: SettingsPanelProps) => {
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const [activeTab, setActiveTab] = useState('general');
@@ -35,6 +43,14 @@ const SettingsPanel = () => {
       currentPassword: '',
       newPassword: '',
       confirmPassword: '',
+    },
+  });
+
+  // Doctor name form
+  const doctorNameForm = useForm<z.infer<typeof doctorNameSchema>>({
+    resolver: zodResolver(doctorNameSchema),
+    defaultValues: {
+      doctorName: doctorName,
     },
   });
 
@@ -56,6 +72,14 @@ const SettingsPanel = () => {
     });
     
     passwordForm.reset();
+  };
+
+  const onDoctorNameSubmit = (data: z.infer<typeof doctorNameSchema>) => {
+    updateDoctorName(data.doctorName);
+    toast({
+      title: "Success",
+      description: "Doctor name updated successfully",
+    });
   };
 
   const saveGeneralSettings = () => {
@@ -104,6 +128,29 @@ const SettingsPanel = () => {
               <CardDescription>Configure basic system preferences</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Doctor Name Section */}
+              <div className="space-y-4 pb-6 border-b">
+                <h3 className="font-medium">Doctor Information</h3>
+                <Form {...doctorNameForm}>
+                  <form onSubmit={doctorNameForm.handleSubmit(onDoctorNameSubmit)} className="space-y-4">
+                    <FormField
+                      control={doctorNameForm.control}
+                      name="doctorName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Doctor Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter doctor name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit" size="sm">Update Doctor Name</Button>
+                  </form>
+                </Form>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="space-y-2">
