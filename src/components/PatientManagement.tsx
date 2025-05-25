@@ -1,16 +1,19 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Search, UserPlus } from 'lucide-react';
+import { Search, UserPlus, FileText, Pill, Bell, Activity } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { PatientForm, PatientFormData } from './patients/PatientForm';
 import { PatientList } from './patients/PatientList';
 import { MessageForm } from './patients/MessageForm';
 import { RewardForm } from './patients/RewardForm';
 import { HealthTrackingForm } from './patients/HealthTrackingForm';
+import { SurveyForm } from './patients/SurveyForm';
+import { MedicationScheduleForm } from './patients/MedicationScheduleForm';
+import { NotificationScheduleForm } from './patients/NotificationScheduleForm';
 import { usePatients } from './patients/hooks/usePatients';
+import { usePatientEngagement } from './patients/hooks/usePatientEngagement';
 import { Patient } from './patients/PatientCard';
 
 const PatientManagement = () => {
@@ -20,8 +23,12 @@ const PatientManagement = () => {
   const [isRewardDialogOpen, setIsRewardDialogOpen] = useState(false);
   const [isHealthTrackingDialogOpen, setIsHealthTrackingDialogOpen] = useState(false);
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
+  const [isSurveyDialogOpen, setIsSurveyDialogOpen] = useState(false);
+  const [isMedicationDialogOpen, setIsMedicationDialogOpen] = useState(false);
+  const [isNotificationDialogOpen, setIsNotificationDialogOpen] = useState(false);
   const [editingPatient, setEditingPatient] = useState<Patient | null>(null);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [surveyType, setSurveyType] = useState<'pre_appointment' | 'post_appointment' | 'general_health'>('general_health');
 
   const {
     filteredPatients,
@@ -35,6 +42,13 @@ const PatientManagement = () => {
     addHealthTrackingMutation,
     sendMessageMutation
   } = usePatients();
+
+  const {
+    createSurveyMutation,
+    createMedicationScheduleMutation,
+    createNotificationMutation,
+    createHealthTrackingMutation
+  } = usePatientEngagement();
 
   const handleAddPatient = () => {
     setIsAddDialogOpen(true);
@@ -64,6 +78,22 @@ const PatientManagement = () => {
   const handleSendMessage = (patient: Patient) => {
     setSelectedPatient(patient);
     setIsMessageDialogOpen(true);
+  };
+
+  const handleCreateSurvey = (patient: Patient, type: 'pre_appointment' | 'post_appointment' | 'general_health') => {
+    setSelectedPatient(patient);
+    setSurveyType(type);
+    setIsSurveyDialogOpen(true);
+  };
+
+  const handleAddMedication = (patient: Patient) => {
+    setSelectedPatient(patient);
+    setIsMedicationDialogOpen(true);
+  };
+
+  const handleScheduleNotification = (patient: Patient) => {
+    setSelectedPatient(patient);
+    setIsNotificationDialogOpen(true);
   };
 
   const onAddSubmit = (data: PatientFormData) => {
@@ -108,6 +138,33 @@ const PatientManagement = () => {
         method: data.method,
       });
       setIsMessageDialogOpen(false);
+    }
+  };
+
+  const onSurveySubmit = (data: any) => {
+    createSurveyMutation.mutate(data);
+    setIsSurveyDialogOpen(false);
+  };
+
+  const onMedicationSubmit = (data: any) => {
+    createMedicationScheduleMutation.mutate(data);
+    setIsMedicationDialogOpen(false);
+  };
+
+  const onNotificationSubmit = (data: any) => {
+    createNotificationMutation.mutate(data);
+    setIsNotificationDialogOpen(false);
+  };
+
+  const onPatientHealthTrackingSubmit = (data: any) => {
+    if (selectedPatient) {
+      createHealthTrackingMutation.mutate({
+        patient_id: selectedPatient.id,
+        tracking_type: data.tracking_type,
+        value: data.value,
+        notes: data.notes
+      });
+      setIsHealthTrackingDialogOpen(false);
     }
   };
 
@@ -159,6 +216,9 @@ const PatientManagement = () => {
             onAddReward={handleAddReward}
             onAddHealthTracking={handleAddHealthTracking}
             onSendMessage={handleSendMessage}
+            onCreateSurvey={handleCreateSurvey}
+            onAddMedication={handleAddMedication}
+            onScheduleNotification={handleScheduleNotification}
           />
         </div>
       </div>
@@ -230,6 +290,52 @@ const PatientManagement = () => {
             onSubmit={onMessageSubmit}
             isSubmitting={sendMessageMutation.isPending}
             onCancel={() => setIsMessageDialogOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Survey Dialog */}
+      <Dialog open={isSurveyDialogOpen} onOpenChange={setIsSurveyDialogOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Create Patient Survey</DialogTitle>
+          </DialogHeader>
+          <SurveyForm
+            patient={selectedPatient}
+            surveyType={surveyType}
+            onSubmit={onSurveySubmit}
+            isSubmitting={createSurveyMutation.isPending}
+            onCancel={() => setIsSurveyDialogOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Medication Dialog */}
+      <Dialog open={isMedicationDialogOpen} onOpenChange={setIsMedicationDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Add Medication Schedule</DialogTitle>
+          </DialogHeader>
+          <MedicationScheduleForm
+            patient={selectedPatient}
+            onSubmit={onMedicationSubmit}
+            isSubmitting={createMedicationScheduleMutation.isPending}
+            onCancel={() => setIsMedicationDialogOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Notification Dialog */}
+      <Dialog open={isNotificationDialogOpen} onOpenChange={setIsNotificationDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Schedule Notification</DialogTitle>
+          </DialogHeader>
+          <NotificationScheduleForm
+            patient={selectedPatient}
+            onSubmit={onNotificationSubmit}
+            isSubmitting={createNotificationMutation.isPending}
+            onCancel={() => setIsNotificationDialogOpen(false)}
           />
         </DialogContent>
       </Dialog>

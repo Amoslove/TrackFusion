@@ -68,6 +68,212 @@ export type Database = {
           },
         ]
       }
+      health_tracking: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          patient_id: string | null
+          recorded_at: string
+          tracking_type: string
+          value: Json
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          patient_id?: string | null
+          recorded_at?: string
+          tracking_type: string
+          value: Json
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          patient_id?: string | null
+          recorded_at?: string
+          tracking_type?: string
+          value?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_tracking_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medication_schedules: {
+        Row: {
+          created_at: string
+          dosage: string
+          end_date: string | null
+          frequency: string
+          id: string
+          is_active: boolean
+          medication_name: string
+          notes: string | null
+          patient_id: string | null
+          reminder_times: string[]
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dosage: string
+          end_date?: string | null
+          frequency: string
+          id?: string
+          is_active?: boolean
+          medication_name: string
+          notes?: string | null
+          patient_id?: string | null
+          reminder_times?: string[]
+          start_date: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dosage?: string
+          end_date?: string | null
+          frequency?: string
+          id?: string
+          is_active?: boolean
+          medication_name?: string
+          notes?: string | null
+          patient_id?: string | null
+          reminder_times?: string[]
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medication_schedules_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_schedules: {
+        Row: {
+          appointment_id: string | null
+          created_at: string
+          delivery_method: string
+          id: string
+          medication_schedule_id: string | null
+          message_content: string
+          notification_type: string
+          patient_id: string | null
+          scheduled_time: string
+          sent_at: string | null
+          status: string
+        }
+        Insert: {
+          appointment_id?: string | null
+          created_at?: string
+          delivery_method: string
+          id?: string
+          medication_schedule_id?: string | null
+          message_content: string
+          notification_type: string
+          patient_id?: string | null
+          scheduled_time: string
+          sent_at?: string | null
+          status?: string
+        }
+        Update: {
+          appointment_id?: string | null
+          created_at?: string
+          delivery_method?: string
+          id?: string
+          medication_schedule_id?: string | null
+          message_content?: string
+          notification_type?: string
+          patient_id?: string | null
+          scheduled_time?: string
+          sent_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_schedules_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_schedules_medication_schedule_id_fkey"
+            columns: ["medication_schedule_id"]
+            isOneToOne: false
+            referencedRelation: "medication_schedules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_schedules_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patient_surveys: {
+        Row: {
+          appointment_id: string | null
+          completed_at: string | null
+          created_at: string
+          id: string
+          patient_id: string | null
+          questions: Json
+          responses: Json | null
+          survey_type: string
+          updated_at: string
+        }
+        Insert: {
+          appointment_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          patient_id?: string | null
+          questions: Json
+          responses?: Json | null
+          survey_type: string
+          updated_at?: string
+        }
+        Update: {
+          appointment_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          patient_id?: string | null
+          questions?: Json
+          responses?: Json | null
+          survey_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_surveys_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_surveys_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       patients: {
         Row: {
           code_number: string
