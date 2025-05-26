@@ -14,16 +14,21 @@ Visit the Lovable Project and start prompting.
 ⚠️ Requirements: Node.js and npm installed. You can install via NVM.
 
 Follow these steps to get started:
+
 # Step 1: Clone the repository
+
 git clone <YOUR_GIT_URL>
 
 # Step 2: Navigate into the project directory
+
 cd <YOUR_PROJECT_NAME>
 
 # Step 3: Install dependencies
+
 npm install
 
 # Step 4: Start the development server
+
 npm run dev
 Option 3: Edit Directly on GitHub
 Open the desired file in the repository.
@@ -66,3 +71,37 @@ Username: admin
 Password: doctor12/
 
 👉 Live Link: https://TrackFusion1.netlify.app
+
+# TrackFusion
+
+TrackFusion is a modern web app designed to help users manage and track their music preferences, playlists, and activity. Built with React and Vite, it offers a clean UI and responsive performance.
+
+## Features
+
+- User-friendly interface for music tracking
+- Playlist management
+- Responsive design
+
+## Tech Stack
+
+- React
+- Vite
+- Tailwind CSS
+- Lucide React (icons)
+
+## Getting Started
+
+To run this project locally:
+
+`bash
+git clone https://github.com/Toheebay/TrackFusion.git
+cd TrackFusion
+yarn install
+yarn dev
+
+## Contributions
+
+This project is a collaborative effort by:
+
+- Toheebay — Initial project setup and main development
+- Amoslove — Collaborator (contributed to README update,setup testing and project understanding)
